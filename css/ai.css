@@ -1,0 +1,371 @@
+/* ============ AI 模块样式 ============ */
+/* AI 页面头部 */
+.ai-header {
+  background: var(--gradient);
+  padding: 20px 16px 24px;
+  text-align: center;
+  border-radius: 0 0 30px 30px;
+}
+.ai-header h1 { font-size: 20px; color: white; margin-bottom: 4px; }
+.ai-header p { font-size: 13px; color: rgba(255,255,255,0.9); }
+
+/* AI 功能入口卡片网格 */
+.ai-entry-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 0 16px;
+  margin-top: 16px;
+}
+
+.ai-entry-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 18px 14px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  border: 1.5px solid transparent;
+}
+.ai-entry-card:active {
+  transform: scale(0.97);
+  box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+}
+.ai-entry-card.active-card {
+  border-color: var(--pink);
+  background: var(--light-pink);
+}
+.ai-entry-card .entry-icon {
+  font-size: 32px;
+  line-height: 1;
+}
+.ai-entry-card .entry-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dark-text);
+  text-align: center;
+}
+.ai-entry-card .entry-desc {
+  font-size: 11px;
+  color: var(--gray-text);
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* AI 功能面板（点击入口后展开） */
+.ai-panel {
+  display: none;
+  margin: 12px 16px 0;
+  animation: fadeInUp 0.25s ease;
+}
+.ai-panel.show { display: block; }
+
+/* ---- 图片识别模块 ---- */
+.img-upload-area {
+  border: 2px dashed rgba(255,182,193,0.6);
+  border-radius: var(--radius);
+  padding: 28px 16px;
+  text-align: center;
+  cursor: pointer;
+  background: var(--light-pink);
+  transition: border-color 0.2s, background 0.2s;
+  position: relative;
+}
+.img-upload-area:hover, .img-upload-area.drag-over {
+  border-color: var(--pink);
+  background: #ffe4ec;
+}
+.img-upload-area input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+.img-upload-area .upload-icon { font-size: 36px; margin-bottom: 8px; }
+.img-upload-area .upload-text { font-size: 14px; color: var(--dark-text); font-weight: 500; }
+.img-upload-area .upload-hint { font-size: 12px; color: var(--gray-text); margin-top: 4px; }
+
+/* 已选图片预览行 */
+.img-preview-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.img-preview-thumb {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid rgba(255,182,193,0.4);
+  flex-shrink: 0;
+}
+.img-preview-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.img-preview-thumb .thumb-del {
+  position: absolute;
+  top: 2px; right: 2px;
+  width: 18px; height: 18px;
+  background: rgba(0,0,0,0.45);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 11px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  line-height: 1;
+}
+
+/* 识别按钮 */
+.btn-recognize {
+  width: 100%;
+  margin-top: 14px;
+  padding: 13px;
+  border: none;
+  border-radius: 14px;
+  background: var(--gradient);
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(255,182,193,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: opacity 0.2s;
+}
+.btn-recognize:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-recognize .btn-spinner {
+  width: 16px; height: 16px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  display: none;
+}
+.btn-recognize.loading .btn-spinner { display: block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---- 识别结果弹窗内 ---- */
+.receipt-result-list { display: flex; flex-direction: column; gap: 12px; }
+
+.receipt-item-card {
+  background: var(--light-pink);
+  border-radius: 14px;
+  padding: 14px;
+  position: relative;
+  border: 1.5px solid rgba(255,182,193,0.3);
+}
+.receipt-item-card .ric-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.receipt-item-card .ric-index {
+  font-size: 12px;
+  color: var(--gray-text);
+  background: white;
+  border-radius: 10px;
+  padding: 2px 8px;
+}
+.receipt-item-card .ric-del {
+  background: none;
+  border: none;
+  color: #e57373;
+  font-size: 18px;
+  cursor: pointer;
+  line-height: 1;
+}
+.receipt-item-card .ric-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.receipt-item-card .ric-row label {
+  font-size: 12px;
+  color: var(--gray-text);
+  width: 52px;
+  flex-shrink: 0;
+}
+.receipt-item-card .ric-row input,
+.receipt-item-card .ric-row select {
+  flex: 1;
+  padding: 7px 10px;
+  border: 1px solid #e8e8e8;
+  border-radius: 10px;
+  font-size: 13px;
+  outline: none;
+  background: white;
+}
+.receipt-item-card .ric-row input:focus,
+.receipt-item-card .ric-row select:focus { border-color: var(--pink); }
+
+/* 批量确认按钮 */
+.btn-confirm-all {
+  width: 100%;
+  margin-top: 4px;
+  padding: 13px;
+  border: none;
+  border-radius: 14px;
+  background: var(--gradient);
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(255,182,193,0.45);
+}
+
+/* API 设置卡片 */
+.api-settings-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  margin: 16px 16px 0;
+}
+
+/* 卡片内三页 tab */
+.api-card-tabs {
+  display: flex;
+  border-bottom: 1px solid #f0f0f0;
+}
+.api-card-tab {
+  flex: 1;
+  padding: 12px 6px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--gray-text);
+  cursor: pointer;
+  border: none;
+  background: none;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+.api-card-tab.active {
+  color: var(--pink);
+  border-bottom-color: var(--pink);
+  font-weight: 600;
+}
+
+.api-card-page { display: none; padding: 16px; }
+.api-card-page.show { display: block; }
+
+/* 人设头像上传 */
+.persona-avatar-upload {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  border: 2px dashed rgba(255,182,193,0.6);
+  background: var(--light-pink);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  margin: 0 auto 12px;
+  flex-shrink: 0;
+}
+.persona-avatar-upload input[type="file"] {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+}
+.persona-avatar-upload img {
+  width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;
+}
+
+/* 表情包库 */
+.sticker-library {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+.sticker-thumb {
+  width: 64px; height: 64px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1.5px solid rgba(255,182,193,0.3);
+  position: relative;
+  background: var(--light-pink);
+}
+.sticker-thumb img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.sticker-thumb .sticker-del {
+  position: absolute;
+  top: 1px; right: 1px;
+  width: 16px; height: 16px;
+  background: rgba(0,0,0,0.4);
+  color: white; border: none; border-radius: 50%;
+  font-size: 10px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.sticker-upload-btn {
+  width: 64px; height: 64px;
+  border-radius: 10px;
+  border: 2px dashed rgba(255,182,193,0.5);
+  background: var(--light-pink);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  font-size: 22px; cursor: pointer;
+  color: var(--pink);
+  position: relative;
+}
+.sticker-upload-btn input[type="file"] {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+}
+.sticker-upload-btn span {
+  font-size: 10px; color: var(--gray-text); margin-top: 2px;
+}
+
+/* AI 聊天记账入口区 */
+.ai-chat-bill-area {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ai-chat-bill-input-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+.ai-chat-bill-input-row textarea {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1.5px solid rgba(255,182,193,0.4);
+  border-radius: 14px;
+  font-size: 14px;
+  outline: none;
+  resize: none;
+  height: 52px;
+  background: var(--light-pink);
+  transition: border-color 0.2s;
+  font-family: inherit;
+}
+.ai-chat-bill-input-row textarea:focus { border-color: var(--pink); background: white; }
+.ai-chat-bill-input-row .btn-send {
+  width: 48px; height: 48px;
+  border: none; border-radius: 14px;
+  background: var(--gradient);
+  color: white; font-size: 20px;
+  cursor: pointer; flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(255,182,193,0.4);
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.2s;
+}
+.ai-chat-bill-input-row .btn-send:disabled { opacity: 0.5; }
+
+/* 解析结果卡片（与识别结果复用 receipt-item-card 样式） */
+
+/* AI 聊天记账回复气泡区（在 chat 模块中） */

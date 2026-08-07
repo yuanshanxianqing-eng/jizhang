@@ -1,0 +1,802 @@
+/* ============ 补丁样式：折叠主题 / 存钱目标分配 / API增强 ============ */
+
+/* 主题折叠外壳 */
+.theme-fold-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.theme-fold-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  background: rgba(var(--custom-panel-bg-rgb, 255,240,245), 0.55);
+  border: 1px solid var(--custom-border, rgba(255,182,193,0.35));
+  border-radius: 14px;
+  padding: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.theme-fold-top .theme-fold-title {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.theme-fold-top .theme-fold-sub {
+  font-size: 11px;
+  color: var(--custom-subtext, #888);
+  margin-top: 3px;
+}
+
+.theme-fold-arrow {
+  font-size: 16px;
+  color: var(--custom-subtext, #888);
+  transition: transform 0.25s;
+}
+
+.theme-fold-card.fold-open .theme-fold-arrow {
+  transform: rotate(180deg);
+}
+
+.theme-fold-body {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.theme-fold-card.fold-open .theme-fold-body {
+  display: flex;
+}
+
+/* 每个主题小块也可折叠 */
+.theme-accordion-block {
+  background: rgba(var(--custom-panel-bg-rgb, 255,240,245), 0.55);
+  border: 1px solid var(--custom-border, rgba(255,182,193,0.35));
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.theme-accordion-head {
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.theme-accordion-head span:first-child {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.theme-accordion-arrow {
+  color: var(--custom-subtext, #888);
+  transition: transform 0.25s;
+}
+
+.theme-accordion-block.open .theme-accordion-arrow {
+  transform: rotate(180deg);
+}
+
+.theme-accordion-body {
+  display: none;
+  padding: 0 12px 12px;
+}
+
+.theme-accordion-block.open .theme-accordion-body {
+  display: block;
+}
+
+/* 存钱目标分配 */
+.saving-goal-select-hint {
+  font-size: 11px;
+  color: var(--gray-text);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+.saving-record-goal {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-top: 3px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(255,182,193,0.18);
+  color: #E91E63;
+  font-size: 11px;
+}
+
+/* 存钱目标卡片增强 */
+.saving-goal-card .goal-extra {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--gray-text);
+}
+
+.saving-goal-card .goal-left-money {
+  color: var(--gray-text);
+}
+
+/* API 设置增强 */
+.api-advanced-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.api-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: #f5f5f5;
+  color: #888;
+}
+
+.api-status-pill.success {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+
+.api-status-pill.error {
+  background: #FFEBEE;
+  color: #C62828;
+}
+
+.api-status-pill.testing {
+  background: #FFF8E1;
+  color: #F57F17;
+}
+
+.api-model-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.api-model-row input,
+.api-model-row select {
+  flex: 1;
+}
+
+.api-mini-help {
+  font-size: 11px;
+  color: var(--gray-text);
+  line-height: 1.5;
+  margin-top: 4px;
+}
+
+.api-actions-row {
+  display: flex;
+  gap: 10px;
+}
+
+.api-actions-row button {
+  flex: 1;
+  border: none;
+  border-radius: 12px;
+  padding: 11px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.api-test-btn {
+  background: #f5f5f5;
+  color: #666;
+}
+
+.api-save-btn {
+  background: var(--gradient);
+  color: white;
+  box-shadow: 0 2px 8px rgba(255,182,193,0.35);
+}
+
+/* 模型文本框 */
+.api-models-textarea {
+  min-height: 72px;
+  font-family: Consolas, Monaco, monospace;
+  font-size: 12px;
+}
+
+/* 主题折叠里的按钮 */
+.theme-fold-save-row {
+  display: flex;
+  gap: 10px;
+}
+
+.theme-fold-save-row button {
+  flex: 1;
+  padding: 11px;
+  border: none;
+  border-radius: 12px;
+  font-size: 13px;
+  cursor: pointer;
+}
+/* ============ 补丁：聊天框图片 / 表情包 / 表情包备注 ============ */
+
+/* 聊天输入栏媒体按钮 */
+.chat-media-btn {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255,182,193,0.22);
+  color: #E91E63;
+  font-size: 18px;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-media-btn:active {
+  transform: scale(0.94);
+}
+
+/* 用户发出的图片 */
+.chat-msg-user .msg-image,
+.chat-msg-ai .msg-image {
+  max-width: 180px;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+  background: white;
+}
+
+.chat-msg-user .msg-image img,
+.chat-msg-ai .msg-image img {
+  width: 100%;
+  display: block;
+}
+
+/* 用户表情包 */
+.chat-msg-user .msg-sticker {
+  max-width: 120px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(255,182,193,0.25);
+}
+
+.chat-msg-user .msg-sticker img {
+  width: 100%;
+  display: block;
+}
+
+/* 聊天里的图片分析状态 */
+.chat-image-analyzing {
+  align-self: flex-start;
+  background: rgba(255,255,255,0.9);
+  border-radius: 18px 18px 18px 4px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #888;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  width: fit-content;
+}
+
+/* 表情包选择弹窗 */
+.sticker-picker-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 6200;
+  background: rgba(0,0,0,0.35);
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.sticker-picker-overlay.show {
+  display: flex;
+}
+
+.sticker-picker-panel {
+  width: 100%;
+  max-width: 500px;
+  max-height: 72vh;
+  overflow-y: auto;
+  background: white;
+  border-radius: 22px 22px 0 0;
+  padding: 18px 16px 22px;
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.12);
+}
+
+.sticker-picker-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.sticker-picker-title span {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.sticker-picker-title button {
+  border: none;
+  background: none;
+  font-size: 22px;
+  color: #888;
+  cursor: pointer;
+}
+
+.sticker-search-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  outline: none;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.sticker-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.sticker-picker-item {
+  background: var(--light-pink);
+  border-radius: 12px;
+  padding: 6px;
+  cursor: pointer;
+  border: 1.5px solid rgba(255,182,193,0.25);
+}
+
+.sticker-picker-item:active {
+  transform: scale(0.96);
+}
+
+.sticker-picker-item img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 9px;
+  display: block;
+}
+
+.sticker-picker-note {
+  font-size: 10px;
+  color: #888;
+  text-align: center;
+  margin-top: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 表情包库备注编辑 */
+.sticker-thumb {
+  height: auto;
+  min-height: 64px;
+}
+
+.sticker-note-input {
+  width: 64px;
+  margin-top: 4px;
+  padding: 4px 5px;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  font-size: 10px;
+  outline: none;
+  background: white;
+}
+
+.sticker-note-input:focus {
+  border-color: var(--pink);
+}
+
+.sticker-thumb-wrap {
+  width: 64px;
+}
+
+.sticker-thumb-wrap .sticker-thumb {
+  width: 64px;
+  height: 64px;
+}
+
+/* API分析出的聊天账单卡片间距 */
+.chat-msg-ai .chat-bill-card {
+  max-width: 260px;
+}
+/* ============ 聊天记录 / 回复模式 / 聊天设置 ============ */
+
+.chat-tools-row {
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px 0;
+  background: transparent;
+}
+
+.chat-tool-btn {
+  border: none;
+  border-radius: 14px;
+  padding: 7px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  background: rgba(255,255,255,0.75);
+  color: #666;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+
+.chat-tool-btn.primary {
+  background: var(--gradient);
+  color: white;
+}
+
+.chat-message-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  opacity: 0.7;
+}
+
+.chat-msg-user .chat-message-actions {
+  justify-content: flex-end;
+}
+
+.chat-msg-ai .chat-message-actions {
+  justify-content: flex-start;
+}
+
+.chat-delete-btn {
+  border: none;
+  background: rgba(0,0,0,0.06);
+  color: #888;
+  border-radius: 10px;
+  padding: 2px 7px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.chat-time-label {
+  font-size: 11px;
+  color: #999;
+  line-height: 1.3;
+}
+
+.chat-settings-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 6500;
+  background: rgba(0,0,0,0.42);
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.chat-settings-overlay.show {
+  display: flex;
+}
+
+.chat-settings-panel {
+  width: 100%;
+  max-width: 520px;
+  max-height: 88vh;
+  overflow-y: auto;
+  background: white;
+  border-radius: 22px 22px 0 0;
+  padding: 20px 16px 24px;
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.12);
+}
+
+.chat-settings-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.chat-settings-title span {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.chat-settings-title button {
+  border: none;
+  background: none;
+  font-size: 22px;
+  color: #888;
+  cursor: pointer;
+}
+
+.chat-setting-block {
+  background: #fafafa;
+  border: 1px solid #f0f0f0;
+  border-radius: 14px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.chat-setting-block-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.chat-setting-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.chat-setting-row:last-child {
+  margin-bottom: 0;
+}
+
+.chat-setting-row label {
+  width: 92px;
+  font-size: 13px;
+  color: #888;
+  flex-shrink: 0;
+}
+
+.chat-setting-row input,
+.chat-setting-row select,
+.chat-setting-row textarea {
+  flex: 1;
+  min-width: 140px;
+  padding: 8px 10px;
+  border: 1px solid #e8e8e8;
+  border-radius: 10px;
+  outline: none;
+  font-size: 13px;
+  background: white;
+}
+
+.chat-setting-row textarea {
+  width: 100%;
+  min-height: 80px;
+  resize: vertical;
+  font-family: Consolas, Monaco, monospace;
+  font-size: 12px;
+}
+
+.chat-settings-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.chat-settings-actions button {
+  flex: 1;
+  border: none;
+  border-radius: 12px;
+  padding: 11px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.chat-save-settings-btn {
+  background: var(--gradient);
+  color: white;
+}
+
+.chat-muted-btn {
+  background: #f5f5f5;
+  color: #777;
+}
+
+/* ============ 手动周期结转 ============ */
+
+.cycle-control-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cycle-status-box {
+  background: rgba(255,182,193,0.16);
+  border: 1px solid rgba(255,182,193,0.28);
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.cycle-status-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.cycle-status-line:last-child {
+  margin-bottom: 0;
+}
+
+.cycle-status-label {
+  color: var(--gray-text);
+  flex-shrink: 0;
+}
+
+.cycle-status-value {
+  font-weight: 600;
+  text-align: right;
+}
+
+.cycle-control-help {
+  font-size: 11px;
+  color: var(--gray-text);
+  line-height: 1.5;
+}
+
+.cycle-control-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.cycle-control-actions button {
+  flex: 1;
+  border: none;
+  border-radius: 12px;
+  padding: 11px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.cycle-start-btn {
+  background: var(--gradient);
+  color: white;
+  box-shadow: 0 2px 8px rgba(255,182,193,0.35);
+}
+
+.cycle-muted-btn {
+  background: #f5f5f5;
+  color: #777;
+}
+
+.cycle-modal-tip {
+  background: var(--light-pink);
+  border-radius: 14px;
+  padding: 12px;
+  font-size: 13px;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+.cycle-modal-current {
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+/* ============ 预算超支显示 ============ */
+
+.budget-over-text {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #e53935;
+  font-weight: 600;
+}
+
+.budget-remaining.over .amount {
+  color: #e53935;
+}
+
+.budget-cat-over {
+  padding: 0 12px 8px;
+  font-size: 11px;
+  color: #e53935;
+  font-weight: 600;
+}
+
+.budget-sub-over {
+  margin: -2px 0 6px;
+  font-size: 11px;
+  color: #e53935;
+  text-align: right;
+}
+
+.budget-progress-bar.over {
+  background: linear-gradient(135deg, #ff6b6b, #e53935) !important;
+}
+
+/* ============ AI 图片识别结果增强 ============ */
+
+.ric-source {
+  font-size: 11px;
+  color: #999;
+  margin-left: 6px;
+}
+
+.ric-ai-warn {
+  font-size: 11px;
+  color: #e53935;
+  margin: -2px 0 8px 60px;
+  line-height: 1.4;
+}
+
+.ric-tag-row {
+  align-items: flex-start !important;
+}
+
+.ric-tag-wrap {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ric-tag-chip {
+  border: 1px solid rgba(255,182,193,0.45);
+  background: white;
+  color: #666;
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ric-tag-chip.selected {
+  background: var(--gradient);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 2px 6px rgba(255,182,193,0.25);
+}
+
+.ric-empty-tags {
+  font-size: 12px;
+  color: #999;
+  padding: 5px 0;
+}
+
+.receipt-item-card.invalid {
+  border-color: #e53935;
+  background: #fff5f5;
+}
+
+/* 底部导航兜底 */
+.bottom-nav {
+  position: fixed !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  min-height: 64px !important;
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  transform: none !important;
+  z-index: 1000 !important;
+  background: var(--white, #fff) !important;
+}
+
+/* 聊天设置弹窗要高于底部导航 */
+.chat-settings-overlay {
+  z-index: 6500 !important;
+}
+
+.sticker-picker-overlay {
+  z-index: 6200 !important;
+}
+
+.modal-overlay {
+  z-index: 5000 !important;
+}
+
+.api-settings-card {
+  display: none;
+}
+
+.api-settings-card.show {
+  display: block !important;
+}

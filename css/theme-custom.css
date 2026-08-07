@@ -1,0 +1,338 @@
+/* ============ 全局主题自定义 ============ */
+/* 这个文件只做覆盖，不删除你的原始样式 */
+
+:root {
+  /* 默认主题变量 */
+  --custom-primary: #FFB6C1;
+  --custom-secondary: #87CEEB;
+
+  --custom-gradient: linear-gradient(135deg, #FFB6C1 0%, #87CEEB 100%);
+
+  --custom-page-bg: #FFF0F5;
+  --custom-page-bg-rgb: 255, 240, 245;
+  --custom-page-bg-opacity: 1;
+
+  --custom-card-bg-rgb: 255, 255, 255;
+  --custom-card-opacity: 1;
+
+  --custom-panel-bg-rgb: 255, 240, 245;
+  --custom-panel-opacity: 1;
+
+  --custom-input-bg-rgb: 250, 250, 250;
+  --custom-input-opacity: 1;
+
+  --custom-text: #333333;
+  --custom-subtext: #888888;
+
+  --custom-border: rgba(255, 182, 193, 0.35);
+  --custom-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --custom-radius: 16px;
+}
+
+/* 页面背景遮罩层 */
+body.custom-theme-enabled {
+  background-color: rgba(var(--custom-page-bg-rgb), var(--custom-page-bg-opacity)) !important;
+  color: var(--custom-text);
+}
+
+/* 如果设置了主题背景图片 */
+body.custom-theme-enabled.custom-theme-bg-image {
+  background-size: cover !important;
+  background-position: center !important;
+  background-attachment: fixed !important;
+}
+
+/* 统一替换原来的粉蓝渐变 */
+body.custom-theme-enabled .header,
+body.custom-theme-enabled .ai-header,
+body.custom-theme-enabled .chat-header-bar,
+body.custom-theme-enabled .btn-add,
+body.custom-theme-enabled .btn-small,
+body.custom-theme-enabled .btn-save,
+body.custom-theme-enabled .btn-recognize,
+body.custom-theme-enabled .btn-confirm-all,
+body.custom-theme-enabled .cyber-wheel-spin-btn,
+body.custom-theme-enabled .chat-input-bar .chat-send-btn,
+body.custom-theme-enabled .ai-chat-bill-input-row .btn-send,
+body.custom-theme-enabled .cbc-btn-confirm,
+body.custom-theme-enabled .ccp-save-btn,
+body.custom-theme-enabled .bottom-nav .nav-item.active .nav-icon {
+  background: var(--custom-gradient) !important;
+}
+
+/* 文字渐变 */
+body.custom-theme-enabled .salary-countdown .salary-days,
+body.custom-theme-enabled .salary-countdown .salary-days span,
+body.custom-theme-enabled .cyber-coin-result {
+  background: var(--custom-gradient) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+
+/* 卡片统一 */
+body.custom-theme-enabled .card,
+body.custom-theme-enabled .api-settings-card,
+body.custom-theme-enabled .chat-customize-panel,
+body.custom-theme-enabled .modal-content {
+  background: rgba(var(--custom-card-bg-rgb), var(--custom-card-opacity)) !important;
+  border-radius: var(--custom-radius) !important;
+  box-shadow: var(--custom-shadow) !important;
+  color: var(--custom-text) !important;
+  backdrop-filter: blur(8px);
+}
+
+/* 底部导航 */
+body.custom-theme-enabled .bottom-nav {
+  background: rgba(var(--custom-card-bg-rgb), var(--custom-card-opacity)) !important;
+  box-shadow: var(--custom-shadow) !important;
+  backdrop-filter: blur(10px);
+}
+
+/* 小面板、浅色块、余额格子、统计格子 */
+body.custom-theme-enabled .balance-item,
+body.custom-theme-enabled .budget-category,
+body.custom-theme-enabled .saving-goal-card,
+body.custom-theme-enabled .quick-btn,
+body.custom-theme-enabled .stat-box,
+body.custom-theme-enabled .chart-placeholder,
+body.custom-theme-enabled .calendar-day-detail,
+body.custom-theme-enabled .receipt-item-card,
+body.custom-theme-enabled .chat-bill-card,
+body.custom-theme-enabled .ccp-block,
+body.custom-theme-enabled .chat-style-preview,
+body.custom-theme-enabled .img-upload-area {
+  background: rgba(var(--custom-panel-bg-rgb), var(--custom-panel-opacity)) !important;
+  border-color: var(--custom-border) !important;
+  color: var(--custom-text) !important;
+  backdrop-filter: blur(6px);
+}
+
+/* 输入框 */
+body.custom-theme-enabled input,
+body.custom-theme-enabled textarea,
+body.custom-theme-enabled select {
+  background: rgba(var(--custom-input-bg-rgb), var(--custom-input-opacity)) !important;
+  color: var(--custom-text) !important;
+  border-color: var(--custom-border) !important;
+}
+
+body.custom-theme-enabled input:focus,
+body.custom-theme-enabled textarea:focus,
+body.custom-theme-enabled select:focus {
+  border-color: var(--custom-primary) !important;
+}
+
+/* 标签、气泡选项 */
+body.custom-theme-enabled .tag,
+body.custom-theme-enabled .bubble-option,
+body.custom-theme-enabled .font-option,
+body.custom-theme-enabled .coin-hist-tag,
+body.custom-theme-enabled .ccp-mini-btn {
+  background: rgba(var(--custom-panel-bg-rgb), var(--custom-panel-opacity)) !important;
+  color: var(--custom-text) !important;
+  border-color: var(--custom-border) !important;
+}
+
+body.custom-theme-enabled .bubble-option.selected,
+body.custom-theme-enabled .font-option.selected {
+  background: var(--custom-gradient) !important;
+  color: white !important;
+  border-color: var(--custom-primary) !important;
+}
+
+/* 进度条 */
+body.custom-theme-enabled .budget-progress-bar,
+body.custom-theme-enabled .goal-progress-bar-fill,
+body.custom-theme-enabled .cat-bar-fill,
+body.custom-theme-enabled .daily-bar {
+  background: var(--custom-gradient) !important;
+}
+
+/* 图标盒子 */
+body.custom-theme-enabled .expense-item .icon,
+body.custom-theme-enabled .salary-countdown .salary-icon-box,
+body.custom-theme-enabled .header-avatar,
+body.custom-theme-enabled .chat-msg-ai .msg-avatar {
+  background: rgba(var(--custom-panel-bg-rgb), var(--custom-panel-opacity)) !important;
+}
+
+/* 导航选中 */
+body.custom-theme-enabled .nav-item.active {
+  color: var(--custom-primary) !important;
+}
+
+/* 小字统一 */
+body.custom-theme-enabled .setting-arrow,
+body.custom-theme-enabled .gray-text,
+body.custom-theme-enabled .ccp-help,
+body.custom-theme-enabled .entry-desc,
+body.custom-theme-enabled .upload-hint,
+body.custom-theme-enabled .chat-ai-status,
+body.custom-theme-enabled .form-group label,
+body.custom-theme-enabled .label,
+body.custom-theme-enabled .sub,
+body.custom-theme-enabled .meta,
+body.custom-theme-enabled .date {
+  color: var(--custom-subtext) !important;
+}
+
+/* 链接式按钮 */
+body.custom-theme-enabled .refresh-btn {
+  color: var(--custom-subtext) !important;
+}
+
+/* 分割线 */
+body.custom-theme-enabled .setting-item,
+body.custom-theme-enabled .income-item,
+body.custom-theme-enabled .expense-item,
+body.custom-theme-enabled .saving-record,
+body.custom-theme-enabled .preset-item {
+  border-color: rgba(var(--custom-panel-bg-rgb), 0.9) !important;
+}
+
+/* 日历今天 */
+body.custom-theme-enabled .calendar-grid .day-cell.today {
+  background: var(--custom-gradient) !important;
+  color: white !important;
+}
+
+/* 危险按钮保留红色，但变浅 */
+body.custom-theme-enabled .danger-btn {
+  background: rgba(255, 245, 245, 0.75) !important;
+  border-color: rgba(255, 150, 150, 0.5) !important;
+}
+
+/* 主题设置面板样式 */
+.theme-custom-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.theme-block {
+  background: rgba(var(--custom-panel-bg-rgb), 0.55);
+  border: 1px solid var(--custom-border);
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.theme-block-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.theme-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.theme-row:last-child {
+  margin-bottom: 0;
+}
+
+.theme-row label {
+  width: 78px;
+  font-size: 13px;
+  color: var(--custom-subtext);
+  flex-shrink: 0;
+}
+
+.theme-row input[type="color"] {
+  width: 52px;
+  height: 34px;
+  padding: 2px;
+  border-radius: 10px;
+  border: 1px solid var(--custom-border);
+  background: white;
+}
+
+.theme-row input[type="text"] {
+  flex: 1;
+  min-width: 130px;
+  padding: 8px 10px;
+  border-radius: 10px;
+}
+
+.theme-row input[type="range"] {
+  flex: 1;
+  min-width: 120px;
+  accent-color: var(--custom-primary);
+}
+
+.theme-opacity-value {
+  width: 42px;
+  font-size: 12px;
+  color: var(--custom-subtext);
+  text-align: right;
+}
+
+.theme-help {
+  font-size: 11px;
+  color: var(--custom-subtext);
+  line-height: 1.5;
+  margin-top: 6px;
+}
+
+.theme-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.theme-actions button {
+  flex: 1;
+  padding: 11px;
+  border: none;
+  border-radius: 12px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.theme-save-btn {
+  background: var(--custom-gradient);
+  color: white;
+  box-shadow: 0 2px 8px rgba(255,182,193,0.35);
+}
+
+.theme-reset-btn {
+  background: #f5f5f5;
+  color: #888;
+}
+
+.theme-preview-box {
+  border-radius: 14px;
+  padding: 12px;
+  background: rgba(var(--custom-card-bg-rgb), var(--custom-card-opacity));
+  box-shadow: var(--custom-shadow);
+}
+
+.theme-preview-header {
+  height: 42px;
+  border-radius: 12px;
+  background: var(--custom-gradient);
+  margin-bottom: 10px;
+}
+
+.theme-preview-card {
+  border-radius: var(--custom-radius);
+  background: rgba(var(--custom-panel-bg-rgb), var(--custom-panel-opacity));
+  padding: 12px;
+}
+
+.theme-preview-line {
+  height: 10px;
+  border-radius: 8px;
+  background: rgba(var(--custom-input-bg-rgb), var(--custom-input-opacity));
+  margin-bottom: 8px;
+}
+
+.theme-preview-line.short {
+  width: 60%;
+}

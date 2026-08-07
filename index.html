@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>我的小金库</title>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/ai.css">
+<link rel="stylesheet" href="css/chat.css">
+<link rel="stylesheet" href="css/spin.css">
+<link rel="stylesheet" href="css/theme-custom.css">
+<link rel="stylesheet" href="css/patch-fixes.css">
+</head>
+<body>
+
+<!-- 开屏动画 -->
+<div id="splashScreen">
+  <div class="splash-text" id="splashText">我的小金库 ♡</div>
+  <div class="splash-sub" id="splashSub">慢慢存钱，也慢慢变富</div>
+  <div id="splashEffects"></div>
+</div>
+
+<!-- ============ 首页 ============ -->
+<div class="page active" id="pageHome">
+  <div class="page-content">
+    <div class="header">
+      <div class="header-avatar" id="headerAvatar">🏠</div>
+      <h1 id="headerTitle">我的小金库 ♡</h1>
+      <p id="headerSubtitle">慢慢存钱，也慢慢变富</p>
+    </div>
+
+    <div class="salary-countdown" id="salaryCountdown">
+      <div class="salary-icon-box" id="salaryIconBox">◷</div>
+      <div class="salary-info">
+        <div class="salary-label" id="salaryLabel">距离发工资</div>
+        <div class="salary-days" id="salaryDays">
+          <span>设置发工资日后显示</span>
+        </div>
+      </div>
+      <button style="background:none;border:none;font-size:18px;cursor:pointer;color:#888;" onclick="openModal('settingsModal')">⚙</button>
+    </div>
+
+    <div class="card">
+      <div class="balance-grid">
+        <div class="balance-item">
+          <div class="label" id="balanceLabelFree">♡ 自由支配余额</div>
+          <div class="amount" id="freeBalance">¥0.00</div>
+        </div>
+        <div class="balance-item">
+          <div class="label">账户实际余额</div>
+          <div class="amount" id="actualBalance">¥0.00</div>
+        </div>
+        <div class="balance-item">
+          <div class="label">本月已支出</div>
+          <div class="amount" id="totalExpense">¥0.00</div>
+        </div>
+        <div class="balance-item">
+          <div class="label">已储存资金</div>
+          <div class="amount" id="totalSaved">¥0.00</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card income-section">
+      <div class="card-title">
+        <span>本月收入</span>
+        <button class="btn-add" onclick="openModal('addIncomeModal')">＋ 添加收入</button>
+      </div>
+      <div class="income-header" onclick="toggleIncomeDetail()">
+        <div>
+          <div style="font-size:12px;color:#888;">工资及其他收入 · 本月所有收入合计</div>
+          <div class="income-total" id="incomeTotal">¥0.00</div>
+        </div>
+        <span class="toggle-icon" id="incomeToggleIcon">▼</span>
+      </div>
+      <div class="income-detail" id="incomeDetail">
+        <div id="incomeList"></div>
+      </div>
+    </div>
+
+    <div class="card budget-section">
+      <div class="card-title">
+        <span>本月预算</span>
+        <button class="btn-small" onclick="openModal('budgetManageModal')">♡ 管理预算与二级分类</button>
+      </div>
+      <div class="budget-remaining">
+        <div class="label">剩余预算</div>
+        <div class="amount" id="budgetRemaining">¥0.00</div>
+        <div class="sub">预算合计 - 本月支出</div>
+      </div>
+      <div id="budgetCategoryList"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <span>存钱目标 ♡</span>
+        <button class="btn-add" onclick="openModal('addGoalModal')">＋ 添加目标</button>
+      </div>
+      <div class="saving-goal-section" id="savingGoalList">
+        <div style="text-align:center;color:#888;font-size:13px;padding:20px 0;">暂无存钱目标</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <span>常用一键记账</span>
+        <button class="btn-small" onclick="openModal('presetManageModal')">管理常用</button>
+      </div>
+      <div class="quick-entry" id="quickEntryList"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <span>本月支出记录</span>
+        <button class="btn-add" onclick="openModal('addExpenseModal')">＋ 添加支出</button>
+      </div>
+      <div id="expenseList"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span>我的标签</span></div>
+      <div class="tags-area" id="tagsArea"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 统计页 ============ -->
+<div class="page" id="pageStats">
+  <div class="page-content">
+    <div class="header" style="padding-bottom:20px;">
+      <h1>本月支出统计 ♡</h1>
+      <button class="refresh-btn" style="color:white;margin:8px auto 0;" onclick="renderStats()">🔄 刷新</button>
+    </div>
+    <div class="card">
+      <div class="card-title"><span>本周期支出</span></div>
+      <div class="stats-summary">
+        <div class="stat-box">
+          <div class="stat-label">总支出</div>
+          <div class="stat-val" id="statTotalExpense">¥0.00</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">笔数</div>
+          <div class="stat-val" id="statCount">0</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span>分类消费</span></div>
+      <div id="categoryChart"><div class="chart-placeholder">暂无数据</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span>每日消费</span></div>
+      <div id="dailyChart"><div class="chart-placeholder">暂无数据</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">
+        <span>日历与记录查找 🗓️</span>
+        <span class="today-indicator" id="todayIndicator"></span>
+      </div>
+      <div class="calendar-header">
+        <button onclick="changeCalendarMonth(-1)">◀</button>
+        <span class="month-title" id="calendarMonthTitle"></span>
+        <button onclick="changeCalendarMonth(1)">▶</button>
+      </div>
+      <div class="calendar-grid" id="calendarGrid"></div>
+      <div class="calendar-day-detail" id="calendarDayDetail">
+        <div style="font-size:14px;font-weight:bold;margin-bottom:8px;" id="calendarDayTitle"></div>
+        <div id="calendarDayRecords"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 对话框页（新增） ============ -->
+<div class="page" id="pageChat">
+  <div class="page-content">
+    <!-- 头部 -->
+    <div class="chat-header-bar">
+      <div class="chat-ai-avatar" id="chatAiAvatarImg">🤖</div>
+      <div class="chat-ai-info">
+        <div class="chat-ai-name" id="chatAiName">小金</div>
+        <div class="chat-ai-status">随时帮你记账 ✨</div>
+      </div>
+      <button class="chat-customize-btn" onclick="toggleChatCustomize()">🎨 自定义</button>
+    </div>
+
+    <!-- 自定义面板 -->
+    <div class="chat-customize-panel" id="chatCustomizePanel">
+      <div class="ccp-title">🎨 对话框自定义</div>
+      <div class="ccp-row">
+        <label>背景颜色</label>
+        <div class="ccp-color-row" id="chatBgColorRow"></div>
+      </div>
+      <div class="ccp-row">
+        <label>背景图片</label>
+        <div style="position:relative;display:inline-block;">
+          <button class="btn-small">选择图片</button>
+          <input type="file" accept="image/*" style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;" onchange="handleChatBgUpload(event)">
+        </div>
+        <button class="btn-small" style="margin-left:6px;background:#f5f5f5;color:#888;" onclick="appData.aiSettings.chatCustomize.bgImage='';saveData();applyChatCustomize()">清除</button>
+      </div>
+      <div class="ccp-row">
+        <label>字体风格</label>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          <span class="font-option" data-font="system" onclick="selectChatFont('system')">默认</span>
+          <span class="font-option" data-font="rounded" onclick="selectChatFont('rounded')">圆润</span>
+          <span class="font-option" data-font="serif" onclick="selectChatFont('serif')">衬线</span>
+          <span class="font-option" data-font="mono" onclick="selectChatFont('mono')">等宽</span>
+        </div>
+      </div>
+      <div class="ccp-row">
+        <label>字体大小</label>
+        <input type="number" id="chatFontSize" value="14" min="11" max="20"
+          style="width:70px;" onchange="saveChatFontSize()">
+        <span style="font-size:12px;color:#888;margin-left:4px;">px</span>
+      </div>
+    </div>
+
+    <!-- 消息区 -->
+    <div class="chat-bg-container" id="chatBgContainer">
+      <div class="chat-message-list" id="chatMessageList"></div>
+    </div>
+
+    <!-- 底部输入栏 -->
+    <div class="chat-input-bar">
+      <textarea id="chatInputTextarea" placeholder="和小金说说你花了什么～"
+        oninput="autoResizeTextarea(this)"
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChatMessage();}"></textarea>
+      <button class="chat-send-btn" id="chatSendBtn" onclick="sendChatMessage()">➤</button>
+    </div>
+  </div>
+</div>
+
+<!-- 余额校准模态框 -->
+<div class="modal-overlay" id="balanceAdjustModal">
+  <div class="modal-content">
+    <div class="modal-title">
+      <span>余额校准</span>
+      <button class="close-btn" onclick="closeModal('balanceAdjustModal')">×</button>
+    </div>
+
+    <p style="font-size:12px;color:#888;line-height:1.6;margin-bottom:14px;">
+      用银行卡/支付宝/微信里的真实余额校准账户实际余额。系统会自动添加一条“余额校准”收入或支出，不会修改历史记录。
+    </p>
+
+    <div class="form-group">
+      <label>当前系统计算余额</label>
+      <input type="text" id="balanceAdjustCurrent" readonly>
+    </div>
+
+    <div class="form-group">
+      <label>真实账户余额</label>
+      <input type="number" id="balanceAdjustTarget" step="0.01" placeholder="请输入真实余额">
+    </div>
+
+    <div class="form-group">
+      <label>备注</label>
+      <textarea id="balanceAdjustNote" placeholder="如：银行卡余额校准"></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn-cancel" onclick="closeModal('balanceAdjustModal')">取消</button>
+      <button class="btn-save" onclick="saveBalanceAdjust()">确认校准</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ AI 页（新增） ============ -->
+<div class="page" id="pageAI">
+  <div class="page-content">
+    <div class="ai-header">
+      <h1>AI 助手 ✨</h1>
+      <p>智能记账，让管钱更轻松</p>
+    </div>
+
+    <!-- 功能入口卡片 -->
+    <div class="ai-entry-grid">
+      <div class="ai-entry-card" data-panel="panelReceipt" onclick="showAiPanel('panelReceipt')">
+        <div class="entry-icon">🧾</div>
+        <div class="entry-label">图片识别记账</div>
+        <div class="entry-desc">拍照上传账单，自动识别每笔</div>
+      </div>
+      <div class="ai-entry-card" data-panel="panelChatBill" onclick="showAiPanel('panelChatBill')">
+        <div class="entry-icon">💬</div>
+        <div class="entry-label">AI 聊天记账</div>
+        <div class="entry-desc">说一句话，帮你记好账</div>
+      </div>
+      <div class="ai-entry-card" data-panel="panelSpin" onclick="showAiPanel('panelSpin')">
+        <div class="entry-icon">🎡</div>
+        <div class="entry-label">赛博转盘</div>
+        <div class="entry-desc">买还是不买？转盘决定！</div>
+      </div>
+      <div class="ai-entry-card" data-panel="panelCoin" onclick="showAiPanel('panelCoin')">
+        <div class="entry-icon">🪙</div>
+        <div class="entry-label">赛博硬币</div>
+        <div class="entry-desc">抛硬币，听天命</div>
+      </div>
+    </div>
+
+    <!-- API 设置入口 -->
+    <div style="margin:12px 16px 0;display:flex;justify-content:flex-end;">
+      <button class="btn-small" onclick="openApiSettingsCard()">⚙ API 设置</button>
+    </div>
+
+    <!-- API 设置卡片（三页 tab） -->
+    <div class="api-settings-card" id="apiSettingsCard" style="display:none;">
+      <div class="api-card-tabs">
+        <button class="api-card-tab active" onclick="switchApiTab(0)">API 设置</button>
+        <button class="api-card-tab" onclick="switchApiTab(1)">AI 人设</button>
+        <button class="api-card-tab" onclick="switchApiTab(2)">表情包库</button>
+      </div>
+
+      <!-- 第1页：API 设置 -->
+      <div class="api-card-page show">
+        <div class="form-group">
+          <label>后端代理地址</label>
+          <input type="text" id="apiBaseUrl" placeholder="https://your-backend.com">
+        </div>
+        <div class="form-group">
+          <label>模型名称</label>
+          <input type="text" id="apiModel" placeholder="gpt-4o">
+        </div>
+        <p style="font-size:12px;color:#888;margin-bottom:12px;">
+          API Key 保存在你的后端服务器，不在此处填写，保证安全。
+        </p>
+        <button class="btn-save" style="width:100%;padding:12px;border:none;border-radius:12px;font-size:14px;cursor:pointer;" onclick="saveApiSettings()">保存设置</button>
+      </div>
+
+      <!-- 第2页：AI 人设 -->
+      <div class="api-card-page">
+        <div class="form-group" style="text-align:center;">
+          <label>人设头像</label>
+          <div class="persona-avatar-upload" id="personaAvatarPreview">
+            🤖
+            <input type="file" accept="image/*" onchange="handlePersonaAvatar(event)">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>AI 名字</label>
+          <input type="text" id="personaName" placeholder="小金">
+        </div>
+        <div class="form-group">
+          <label>称呼用户为</label>
+          <input type="text" id="personaCallUser" placeholder="主人">
+        </div>
+        <div class="form-group">
+          <label>人设描述</label>
+          <textarea id="personaText" style="height:80px;" placeholder="描述 AI 的性格、说话风格..."></textarea>
+        </div>
+        <button class="btn-save" style="width:100%;padding:12px;border:none;border-radius:12px;font-size:14px;cursor:pointer;" onclick="saveApiSettings()">保存人设</button>
+      </div>
+
+      <!-- 第3页：表情包库 -->
+      <div class="api-card-page">
+        <p style="font-size:12px;color:#888;margin-bottom:10px;">上传你的表情包，AI 对话时会随机使用 🎭</p>
+        <div class="sticker-library" id="stickerLibrary"></div>
+      </div>
+    </div>
+
+    <!-- 图片识别面板 -->
+    <div class="ai-panel" id="panelReceipt">
+      <div class="card" style="margin:0;">
+        <div class="card-title"><span>🧾 图片识别记账</span></div>
+        <div class="img-upload-area" id="imgUploadArea">
+          <div class="upload-icon">📷</div>
+          <div class="upload-text">点击上传或拖拽图片</div>
+          <div class="upload-hint">支持多张，每张识别为独立账单</div>
+          <input type="file" accept="image/*" multiple onchange="handleReceiptImages(event)">
+        </div>
+        <div class="img-preview-row" id="imgPreviewRow"></div>
+        <button class="btn-recognize" id="btnRecognize" onclick="recognizeReceipts()">
+          <span class="btn-spinner"></span>
+          <span class="btn-recognize-text">开始识别</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- AI 聊天记账面板 -->
+    <div class="ai-panel" id="panelChatBill">
+      <div class="card" style="margin:0;">
+        <div class="card-title"><span>💬 AI 聊天记账</span></div>
+        <div class="ai-chat-bill-area">
+          <div class="ai-chat-bill-input-row">
+            <textarea id="aiChatBillInput" placeholder="例如：今天午饭花了35块，下午奶茶22"></textarea>
+            <button class="btn-send" id="aiChatBillSendBtn" onclick="sendAiChatBill()">➤</button>
+          </div>
+          <p style="font-size:12px;color:#888;">说完后会在下方显示账单，确认后才会记账。对话内容同步到「对话框」页。</p>
+        </div>
+        <div id="aiChatParsedArea"></div>
+      </div>
+    </div>
+
+    <!-- 赛博转盘面板 -->
+    <div class="ai-panel" id="panelSpin">
+      <div class="card" style="margin:0 
+;">
+        <div class="card-title"><span>🎡 赛博转盘</span></div>
+        <div class="cyber-wheel-wrap">
+          <div class="cyber-wheel-container">
+            <div class="cyber-wheel-pointer">▼</div>
+            <canvas id="cyberWheelCanvas" width="260" height="260"></canvas>
+          </div>
+          <button class="cyber-wheel-spin-btn" id="wheelSpinBtn" onclick="spinWheel()">转！</button>
+        </div>
+        <div class="wheel-options-edit" id="wheelOptionsEdit"></div>
+      </div>
+    </div>
+
+    <!-- 赛博硬币面板 -->
+    <div class="ai-panel" id="panelCoin">
+      <div class="card" style="margin:0;">
+        <div class="card-title"><span>🪙 赛博硬币</span></div>
+        <div class="cyber-coin-wrap">
+          <div class="cyber-coin" id="cyberCoin" onclick="flipCoin()">🌸</div>
+          <div class="cyber-coin-hint">点击硬币抛出～</div>
+          <div class="cyber-coin-result" id="coinResult"></div>
+          <div class="cyber-coin-history" id="coinHistory"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============ 设置页 ============ -->
+<div class="page" id="pageSettings">
+  <div class="page-content">
+    <div class="header" style="padding-bottom:20px;">
+      <h1>设置中心 ♡</h1>
+    </div>
+   <div class="card">
+  <div class="setting-item" onclick="openModal('settingsModal')">
+    <span class="setting-label">基础资料设置</span>
+    <span class="setting-arrow">›</span>
+  </div>
+
+  <div class="setting-item" onclick="openModal('budgetManageModal')">
+    <span class="setting-label">预算分类设置</span>
+    <span class="setting-arrow">›</span>
+  </div>
+
+  <div class="setting-item" onclick="openModal('splashSettingsModal')">
+    <span class="setting-label">开屏动画设置</span>
+    <span class="setting-arrow">›</span>
+  </div>
+
+  <div class="setting-item" onclick="openBalanceAdjustModal()">
+    <span class="setting-label">余额校准</span>
+    <span class="setting-arrow">›</span>
+  </div>
+</div>
+
+<!-- 主题自定义 -->
+<div class="card">
+  <div class="card-title">
+    <span>主题自定义 🎨</span>
+  </div>
+  <div id="themeCustomizeBox">
+    <!-- JS 动态生成 -->
+  </div>
+</div>
+
+    <div class="card">
+      <div class="card-title"><span>储存资金管理</span></div>
+      <p style="font-size:12px;color:#888;margin-bottom:12px;">储存金额会从账户余额扣除，并累计保存。每添加一笔储存，就会从账户实际余额中扣除，同时累计到"已储存资金"。</p>
+      <button class="btn-add" onclick="openModal('addSavingModal')" style="margin-bottom:12px;">＋ 添加储存资金</button>
+      <div id="savingRecordList"></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span>危险操作</span></div>
+      <button class="danger-btn" onclick="exportData()">导出我的数据</button>
+      <button class="danger-btn" onclick="importData()">导入数据</button>
+      <button class="danger-btn" onclick="deleteAllData()">删除全部数据</button>
+      <input type="file" id="importFileInput" accept=".json" style="display:none;" onchange="handleImportFile(event)">
+    </div>
+  </div>
+</div>
+
+<!-- ============ 底部导航（新增对话框和AI） ============ -->
+<div class="bottom-nav">
+  <button class="nav-item active" onclick="switchPage('pageHome', this)">
+    <span class="nav-icon">♡</span>
+    <span>首页</span>
+  </button>
+  <button class="nav-item" onclick="switchPage('pageStats', this)">
+    <span class="nav-icon">⌁</span>
+    <span>统计</span>
+  </button>
+  <button class="nav-item" onclick="switchPage('pageChat', this)">
+    <span class="nav-icon">💬</span>
+    <span>对话框</span>
+  </button>
+  <button class="nav-item" onclick="switchPage('pageAI', this)">
+    <span class="nav-icon">✨</span>
+    <span>AI</span>
+  </button>
+  <button class="nav-item" onclick="switchPage('pageSettings', this)">
+    <span class="nav-icon">⚙</span>
+    <span>设置</span>
+  </button>
+</div>
+
+<!-- ========== 原有模态框（一字不动） ========== -->
+
+<div class="modal-overlay" id="addExpenseModal">
+  <div class="modal-content">
+    <div class="modal-title">
+      <span>添加支出 ♡</span>
+      <button class="close-btn" onclick="closeModal('addExpenseModal')">×</button>
+    </div>
+    <div class="form-group">
+      <label>金额</label>
+      <input type="number" id="expenseAmount" placeholder="请输入金额" step="0.01">
+    </div>
+    <div class="form-group">
+      <label>分类（一级分类）</label>
+      <div class="bubble-select" id="expenseCat1Bubbles"></div>
+    </div>
+    <div class="form-group">
+      <label>二级分类</label>
+      <div class="bubble-select" id="expenseCat2Bubbles"></div>
+    </div>
+    <div class="form-group">
+      <label>标签</label>
+      <div class="bubble-select" id="expenseTagBubbles"></div>
+    </div>
+    <div class="form-group">
+      <label>备注</label>
+      <textarea id="expenseNote" placeholder="选填"></textarea>
+    </div>
+    <div class="form-group">
+      <label>日期</label>
+      <input type="date" id="expenseDate">
+    </div>
+    <div class="form-actions">
+      <button class="btn-cancel" onclick="closeModal('addExpenseModal')">取消</button>
+      <button class="btn-save" onclick="saveExpense()">保存 ♡</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="addIncomeModal">
+  <div class="modal-content">
+    <div class="modal-title">
+      <span>添加收入</span>
+      <button class="close-btn" onclick="closeModal('addIncomeModal')">×</button>
+    </div>
+    <div class="form-group">
+      <label>收入金额</label>
+      <input type="number" id="incomeAmount" placeholder="请输入金额" step="0.01">
+    </div>
+    <div class="form-group">
+      <label>收入来源</label>
+      <input type="text" id="incomeSource" placeholder="如：工资、奖金等">
+    </div>
+    <div class="form-group">
+      <label>收入日期</label>
+      <input type="date" id="incomeDate">
+    </div>
+    <div class="form-actions">
+      <button class="btn-cancel" onclick="closeModal('addIncomeModal')">取消</button>
+      <button class="btn-save" onclick="saveIncome()">保存</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="budgetManageModal">
+  <div class="modal-content">
+    <div class="modal-title">
+      <span>管理预算与二级分类</span>
+      <button class="close-btn" onclick="closeModal('budgetManageModal')">×</button>
+    </div>
+    <div id="budgetManageList"></div>
+    <button class="btn-add" onclick="addBudgetCategory()" style="margin-top:12px;">＋ 添加一级预算</button>
+    <div class="form-actions">
+      <button class="btn-cancel" onclick="closeModal('budgetManageModal')">取消</button>
+      <button class="btn-save" onclick="saveBudgetConfig()">保存</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal-content">
+    <div class="modal-title">
+      <span>小屋设置 ♡</span>
+      <button class="close-btn" onclick="closeModal('settingsModal')">×</button>
+    </div>
+    <div class="form-group">
+      <label>头像 🖼️</label>
+      <input type="file" id="avatarInput" accept="image/*" onchange="handleAvatarUpload(event)">
+    </div>
+    <div class="form-group">
+      <label>网页背景图片 🌸</label>
+      <input type="file" id="bgInput" accept="image/*" onchange="handleBgUpload(event)">
+    </div>
+    <div class="form-group">
+      <label>距离发工资自定义图片</label>
+      <input type="file" id="salaryIconInput" accept="image/*" onchange="handleSalaryIconUpload(event)">
+    </div>
+    <div class="form-group">
+      <label>小金库名称</label>
+      <input type="text" id="settingTitle" placeholder="我的小金库 ♡">
+    </div>
+    <div class="form-group">
+      <label>副标题</label>
+      <input type="text" id="settingSubtitle" placeholder="慢慢存钱，也慢慢变富">
+    </div>
+    <div class="form-group">
+      <label>自由支配余额标签</label>
+      <input type="text" id="settingFreeLabel" placeholder="♡ 自由支配余额">
+    </div>
+    <div class="form-group">
+      <label>自定义标签，用逗号分隔</label>
+      <input type="text" id="settingTags" placeholder="日常,聚餐,交通">
+    </div>
+    <div class="form-group">
+      <label>每月发工资日</label>
+      <input type="number" id="settingSalaryDay" min="1" max="31" placeholder="如：15">
+    </div>
+    <div class="form-group">
+      <label>距离发工资自定义文案</label>
+      <input type="text" id="settingSalaryText" placeholder="距离发工资">
+    </div>
+    <div class="form-group">
+      <label>初始余额</label>
+      <input type="number" id="settingInitBalance" step="0.01" placeholder="0.00">
+    </div>
+    <div class="form-group">
+      <label>记账周期开始日</label>
+      <input type="number" id="settingCycleStart" min="1" max="31" placeholder="如：1">
+    </div>
+    <div class="form-actions">
+      <button class="btn-cancel" onclick="closeModal('settingsModal')">取消</button>
+      <button class="btn-save" onclick="saveSettings()">保存并关闭</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="addSavingModal">
+  <div class="modal-content">
+    <div class="modal-title">
+      <span>添加储存资金</span>
+      <button class="close-btn" onclick="closeModal('addSavingModal')">×</button>
+    </div>
+    <div class="form-group">
+      <label>储存金额</label>
+      <input type="number" id="savingAmount" step="0.01" placeholder="请输入金额">
+    </div>
+    <div class="form-group">
+      <label>备注</label>
+      <textarea id="savingNote" placeholder="选填"></textarea>
+    </div>
+    <div class="form-group">
+      <label>日期</label>
+      <input type="date" id="savingDate">
+    </div>
+    <div class="form-actions">
+      <button class="btn-cancel" onclick="closeModal('addSavingModal')">取消</button>
+      <button class="btn-save" onclick="saveSavingRecord()">确认储存</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="splashSettingsModal">
+  <div class="modal-content">
+    <div class="modal-title">
+      <span>开屏动画设置 ♡</span>
+      <button class="close-btn" onclick="closeModal('splashSettingsModal')">×</button>
+    </div>
+    <div class="form-group">
+      <label>开屏文字</label>
+      <input type="text" id="splashMainText" placeholder="我的小金库 ♡">
+    </div>
+    <div class="form-group">
+      <label>开屏小字</label>
+      <input type="text" id="splashSubText" placeholder="慢慢存钱，也慢慢变富">
+    </div>
+    <div class="form-group">
+      <label>变变花样</label>
+      <div class="anim-option">
+        <input type="radio" name="splashAnim" value="bubbles" id="animBubbles">
+        <label for="animBubbles">泡泡蓝粉</label>
+      </div>
+      <div class="anim-option">
+        <input type="radio" name="splashAnim" value="petals" id="animPetals">
+        <label for="animPetals">花花飘落</label>
+      </div>
+      <div class="anim-option">
+        <input type="radio" name="splashAnim" value="stars" id="animStars">
+        <label for="animStars">星光闪闪</label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>显示时长（毫秒）</label>
+      <input type="number" id="splashDuration" placeholder="3000" min="1000" max="10000">
+    </div>
+    <div style="margin-bottom:16px;">
+      <button class="btn-add" onclick="previewSplash()">预览</button>
+    </div>
+    <div class="form-actions">
+      <button class="btn-cancel" onclick="closeModal('splashSettingsModal')">取消</button>
+      <button class="btn-save" onclick="saveSplashSettings()">保存</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="presetManageModal">
+  <div class="modal-content">
+    <div class="modal-title">
+      <span>常用功能：预设一键记账</span>
+      <button class="close-btn" onclick="closeModal('presetManageModal')">×</button>
+    </div>
+    <div id="presetList"></div>
+    <button class="btn-add" onclick="addPresetItem()" style="margin-top:12px;">＋ 添加常用预设</button>
+    <div class="form-actions">
+      <button class="btn-cancel" onclick="closeModal('presetManageModal')">取消</button>
+      <button class="btn-save" onclick="savePresets()">保存</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="addGoalModal">
+  <div class="modal-content">
+    <div class="modal-title">
+      <span>添加存钱目标 ♡</span>
+      <button class="close-btn" onclick="closeModal('addGoalModal')">×</button>
+    </div>
+    <div class="form-group">
+      <label>目标名称</label>
+      <input type="text" id="goalName" placeholder="如：旅行基金">
+    </div>
+    <div class="form-group">
+      <label>目标金额</label>
+      <input type="number" id="goalAmount" step="0.01" placeholder="请输入目标金额">
+    </div>
+    <div class="form-actions">
+      <button class="btn-cancel" onclick="closeModal('addGoalModal')">取消</button>
+      <button class="btn-save" onclick="saveSavingGoal()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 新增：图片识别结果弹窗 ========== -->
+<div class="modal-overlay" id="receiptResultModal">
+  <div class="modal-content">
+    <div class="modal-title">
+      <span>🧾 识别结果</span>
+      <button class="close-btn" onclick="closeReceiptResultModal()">×</button>
+    </div>
+    <p style="font-size:12px;color:#888;margin-bottom:12px;">可修改每笔内容，删除不需要的，确认后统一记账。</p>
+    <div class="receipt-result-list" id="receiptResultList"></div>
+    <button class="btn-confirm-all" onclick="confirmAllReceipts()" style="margin-top:16px;">✅ 确认全部添加</button>
+  </div>
+</div>
+
+<!-- 转盘结果弹出层 -->
+<div class="wheel-result-toast" id="wheelResultToast">
+  <div class="wrt-emoji" id="wheelResultEmoji">🎉</div>
+  <div class="wrt-text" id="wheelResultText"></div>
+  <div class="wrt-sub" id="wheelResultSub"></div>
+  <button class="wrt-close" onclick="closeWheelResult()">好的～</button>
+</div>
+
+<!-- ========== JS 引用顺序：data → utils → render → handlers → 新增模块 ========== -->
+<script src="js/data.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/render.js"></script>
+<script src="js/handlers.js"></script>
+<script src="js/ai-module.js"></script>
+<script src="js/chat-module.js"></script>
+<script src="js/spin-module.js"></script>
+<script src="js/theme-custom.js"></script>
+<script src="js/patch-fixes.js"></script>
+
+<script>
+// ========== 初始化 ==========
+document.addEventListener('DOMContentLoaded', function () {
+  showSplash();
+  renderAll();
+  initCalendar();
+  // 新增模块初始化
+  renderChatHeader();
+  applyChatCustomize();
+  initCyberWheel();
+  // API 设置卡片默认隐藏，点击按钮才显示
+  const apiCard = document.getElementById('apiSettingsCard');
+  if (apiCard) apiCard.style.display = 'none';
+});
+</script>
+
+</body>
+</html>
